@@ -1,0 +1,30 @@
+.home-page {
+    .home-page-container {
+        width: 100%;
+        max-width: 1024px;
+        margin: auto;
+
+        .home-page-title {
+            text-align: center;
+        } 
+
+        .products {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        
+            .product {
+                width: 300px;
+                height: 600px;
+                flex: 1; 
+        
+                & img {
+                    width: 300px;
+                    height: 400px;
+                }
+            }
+            
+        }
+    }
+}
+

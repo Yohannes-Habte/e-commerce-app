@@ -1,0 +1,33 @@
+.product-page {
+  .product-page-container {
+    width: 100%;
+    max-width: 1024px;
+    margin: auto;
+
+    .product-title {
+      color: green;
+      text-align: center;
+      padding: 1rem;
+    }
+
+    .product-info {
+      display: flex;
+      gap: 1rem;
+
+      .product-image {
+        width: 500px;
+        height: 600px;
+
+        & img {
+          width: 100%;
+          object-fit: cover;
+          border-radius: 0.3rem;
+        }
+      }
+
+      .product-details {
+        margin-left: 2rem;
+      }
+    }
+  }
+}

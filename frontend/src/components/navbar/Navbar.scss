@@ -1,0 +1,11 @@
+
+
+.navbar-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+
+    .list-items {
+        display: flex;
+        gap: 1rem;
+    }
+}
