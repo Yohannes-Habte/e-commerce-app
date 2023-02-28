@@ -2,7 +2,7 @@ import axios from 'axios';
 import React, { useContext, useEffect, useReducer } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useNavigate, useParams } from 'react-router-dom';
-import getError from '../../components/backendErrors/Utils';
+import getError from '../../components/errorHandler/GetError';
 import LoadingBox from '../../components/loading/LoadingBox';
 import MessageBox from '../../components/message/MessageBox';
 import Rating from '../../components/rating/Rating';

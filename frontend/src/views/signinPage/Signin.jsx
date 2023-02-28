@@ -5,6 +5,8 @@ import './Signin.scss';
 import { Helmet } from 'react-helmet-async';
 import Axios from 'axios';
 import { ACTIONS, Store } from '../../components/storeProvider/StoreProvider';
+import { toast } from 'react-toastify';
+import GetError from '../../components/errorHandler/GetError';
 
 const Signin = () => {
   const navigate = useNavigate();
@@ -13,8 +15,10 @@ const Signin = () => {
   const redirectInUrl = new URLSearchParams(search).get('redirect');
   const redirect = redirectInUrl ? redirectInUrl : '/';
   // State variables
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
 
   // Function that updates login data
   const updateData = (e) => {
@@ -35,10 +39,10 @@ const Signin = () => {
 
   // Function to submit user signin
   const submitHandler = async (e) => {
-    e.preventDefaul();
+    e.preventDefault();
     const loginUser = {
-      email,
-      password,
+      email:email,
+      password: password
     };
 
     try {
@@ -46,8 +50,8 @@ const Signin = () => {
       contextDispatch({ type: ACTIONS.USER_SIGNIN, payload: data });
       localStorage.setItem('userInfo', JSON.stringify(data));
       navigate(redirect || '/');
-    } catch (error) {
-      alert("Invalid password or email");
+    } catch (err) {
+      toast.error(GetError(err))
     }
   };
 

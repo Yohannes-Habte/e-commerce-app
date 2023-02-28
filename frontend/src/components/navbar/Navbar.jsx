@@ -4,16 +4,19 @@ import Badge from 'react-bootstrap/Badge';
 import './Navbar.scss';
 import { ACTIONS, Store } from '../storeProvider/StoreProvider';
 import NavDropdown from 'react-bootstrap/NavDropdown';
+import { LinkContainer } from 'react-router-bootstrap';
 
 const Navbar = () => {
   const { state, dispatch: contextDispatch } = useContext(Store);
   const { cart, userInfo } = state;
 
-  // Sign out Function 
+  // Sign out Function
   const signoutHandler = () => {
-    contextDispatch({type: ACTIONS.USER_SIGNOUT})
-    localStorage.removeItem("userInfo")
-  }
+    contextDispatch({ type: ACTIONS.USER_SIGNOUT });
+    localStorage.removeItem('userInfo');
+    localStorage.removeItem('shippingAddress');
+    localStorage.removeItem('paymentMethod');
+  };
   return (
     <nav className="navbar-container">
       <h3 className="logo">
@@ -35,7 +38,7 @@ const Navbar = () => {
       </ul>
 
       <ul className="cart-items">
-        <li className="list-item">
+        <li className="cart-item">
           <NavLink to="/cart">
             Cart
             {cart.cartItems.length > 0 && (
@@ -44,31 +47,33 @@ const Navbar = () => {
               </Badge>
             )}
           </NavLink>
-          {/* To show the Signed In user in the frontend */}
-          {userInfo ? (
-            <NavDropdown title={userInfo.name} id="basic-nav-dropdown">
-              <NavLink to="/profile">
-                <NavDropdown.Item>User Profile</NavDropdown.Item>
-              </NavLink>
-
-              <NavLink to="/orderhistory">
-                <NavDropdown.Item> Order History </NavDropdown.Item>
-              </NavLink>
-
-              <NavDropdown.Divider />
-
-              <NavLink
-                onClick={signoutHandler}
-                className="dropdown-item"
-                to="#signout"
-              >
-                Sign Out
-              </NavLink>
-            </NavDropdown>
-          ) : (
-            <NavLink to={'/signin'}> Sign In </NavLink>
-          )}
         </li>
+        {/* To show the Signed In user in the frontend */}
+        {userInfo ? (
+          <NavDropdown title={userInfo.name} id="basic-nav-dropdown">
+            <LinkContainer to="/profile">
+              <NavDropdown.Item>User Profile</NavDropdown.Item>
+            </LinkContainer>
+
+            <LinkContainer to="/orderhistory">
+              <NavDropdown.Item> Order History </NavDropdown.Item>
+            </LinkContainer>
+
+            <NavDropdown.Divider />
+
+            <NavLink
+              onClick={signoutHandler}
+              className="dropdown-item"
+              to="#signout"
+            >
+              Sign Out
+            </NavLink>
+          </NavDropdown>
+        ) : (
+          <li cart-item>
+            <NavLink to={'/signin'}> Sign In </NavLink>
+          </li>
+        )}
       </ul>
     </nav>
   );
