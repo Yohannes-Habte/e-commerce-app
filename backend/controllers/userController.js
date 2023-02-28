@@ -73,3 +73,35 @@ export const signinUser = async (req, res, next) => {
     return next(createError(400, 'User could not login. Please try again!'));
   }
 };
+
+//=====================================================================
+// Update User Profile
+//=====================================================================
+export const updateUserProfile = async (req, res, next) => {
+  try {
+    const user = await User.findById(req.user._id);
+    if (user) {
+      user.name = req.body.name || user.name;
+      user.email = req.body.email || user.email;
+      if (req.body.password) {
+        user.password = bcrypt.hashSync(req.body.password, 8);
+      }
+
+      const updatedUser = await user.save();
+      return res.send({
+        _id: updatedUser._id,
+        name: updatedUser.name,
+        email: updatedUser.email,
+        isAdmin: updatedUser.isAdmin,
+        token: generateToken(updatedUser),
+      });
+    } else {
+      res.status(404).send({ message: 'User not found' });
+    }
+  } catch (error) {
+    console.log(error);
+    return next(
+      createError(500, 'Database could not queried. Please try again!')
+    );
+  }
+};

@@ -16,6 +16,11 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+// Step 2: create API for the paypal
+app.get('/api/keys/paypal', (req, res) => {
+  res.send(process.env.PAYPAL_CLIENT_ID || 'sb'); // sb = Sandbox
+
+});
 const port = process.env.PORT || 9000;
 
 dotenv.config();

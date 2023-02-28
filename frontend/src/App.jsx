@@ -15,6 +15,9 @@ import Shipping from './views/shippingPage/Shipping';
 import Signup from './views/signupPage/Signup';
 import Payment from './views/paymentPage/Payment';
 import PlaceOrder from './views/orderPage/PlaceOrder';
+import GetOrdered from './views/getOrderedPage/GetOrdered';
+import OrderHistory from './views/orderHistoryPage/OrderHistory';
+import Profile from './views/profilePage/Profile';
 
 const App = () => {
   return (
@@ -36,6 +39,9 @@ const App = () => {
           <Route path="/shipping" element={<Shipping />} />
           <Route path="/payment" element={<Payment />} />
           <Route path="/placeorder" element={<PlaceOrder />} />
+          <Route path="/order/:id" element={<GetOrdered />} />
+          <Route path="/orderhistory" element={<OrderHistory />} />
+          <Route path="/profile" element={<Profile />} />
         </Routes>
         <Footer />
       </Router>

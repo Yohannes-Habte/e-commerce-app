@@ -26,7 +26,64 @@ export const createOrder = async (req, res, next) => {
     const order = await newOrder.save();
     res.status(201).send({ message: 'New Order Created', order });
   } catch (error) {
-    console.log(error)
+    console.log(error);
     next(createError(404, 'Order is not placed. Please try again?'));
+  }
+};
+
+//===================================================================
+// Get One Order
+//===================================================================
+
+export const getOrder = async (req, res, next) => {
+  try {
+    const order = await Order.findById(req.params.id);
+    return res.status(200).send(order);
+  } catch (error) {
+    console.log(error);
+    next(createError(404, 'Order could not be queried. Please try again?'));
+  }
+};
+
+//===================================================================
+// Payment
+//===================================================================
+
+export const payOrder = async (req, res, next) => {
+  try {
+    const order = await Order.findById(req.params.id);
+    if (order) {
+      order.isPaid = true;
+      order.paidAt = Date.now();
+      order.paymentResult = {
+        id: req.body.id,
+        status: req.body.status,
+        update_time: req.body.update_time,
+        email_address: req.body.email_address,
+      };
+
+      const updatedOrder = await order.save();
+      return res
+        .status(200)
+        .send({ message: 'Order paid!', order: updatedOrder });
+    } else {
+      return res.status(402).send({ message: 'Order not found.' });
+    }
+  } catch (error) {
+    console.log(error);
+    next(createError(404, 'Database could not be queried. Please try again?'));
+  }
+};
+
+//===================================================================
+// orders history of a single user
+//===================================================================
+export const singleUserOrders = async (req, res) => {
+  try {
+    const orders = await Order.find({ user: req.user._id });
+    return res.status(200).send(orders);
+  } catch (error) {
+    console.log(error);
+    next(createError(500, "Database couldn't be queried. Please try again!"));
   }
 };
